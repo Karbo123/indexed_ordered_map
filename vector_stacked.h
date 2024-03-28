@@ -862,7 +862,7 @@ bool vector<T,vt>::insert_nothrow(vector<T,vt>::const_iterator pos, vector<T,vt>
 			for(size_t i = pos.pos; first != last; ++first, i++) get_ref(i) = *first;
 		}
 		else {
-			vector<T,vt>::iterator tmp;
+			typename vector<T,vt>::iterator tmp;
 			for(size_t i = pos.pos; first != last; ++first, i++)
 				if(!insert_nothrow(vector<T,vt>::iterator(*this,i),tmp,*first)) return false;
 		}

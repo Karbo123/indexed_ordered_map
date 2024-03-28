@@ -37,6 +37,9 @@
 #ifndef ORBTREE_H
 #define ORBTREE_H
 
+// NOTE : if you like
+// using ssize_t = signed long;
+
 #include "orbtree_base.h"
 #include <type_traits>
 #include <limits>
@@ -143,9 +146,9 @@ namespace orbtree {
 					 * non-const map iterators. Use the set_value()
 					 * member function for that
 					 */
-					typedef const value_base value_type;
-					typedef const value_base* pointer;
-					typedef const value_base& reference;
+					typedef value_base value_type;
+					typedef value_base* pointer;
+					typedef value_base& reference;
 					
 					friend class iterator_base<!is_const>;
 					friend class orbtree<NodeAllocator,Compare,NVFunc,multi,simple>;
@@ -186,12 +189,16 @@ namespace orbtree {
 					 * here, use the \ref set_value() function instead
 					 * for that purpose. */
 					reference operator * () {
-						if(n == NodeAllocator::Invalid) throw std::runtime_error("Attempt to dereference invalid orbtree::iterator!\n");
+						if(n == 0) throw std::runtime_error("Attempt to dereference invalid orbtree::iterator!\n");
 						return t->get_node(n).get_key_value().keyvalue();
 					}
 					/// \copydoc operator*()
 					pointer operator -> () {
-						if(n == NodeAllocator::Invalid) throw std::runtime_error("Attempt to dereference invalid orbtree::iterator!\n");
+						if(n == 0) throw std::runtime_error("Attempt to dereference invalid orbtree::iterator!\n");
+						return &(t->get_node(n).get_key_value().keyvalue());
+					}
+					const pointer operator -> () const {
+						if(n == 0) throw std::runtime_error("Attempt to dereference invalid orbtree::iterator!\n");
 						return &(t->get_node(n).get_key_value().keyvalue());
 					}
 					/// change value stored in map or multimap
@@ -597,7 +604,7 @@ namespace orbtree {
 		 * it can be used as a vector function and results for multiple
 		 * parameter combinations can be calculated at the same time.
 		 */
-		constexpr unsigned int get_nr() const { return 1; }
+		static constexpr unsigned int get_nr() { return 1; }
 		/// Calculate the function value associated with one node.
 		/**
 		 * @param node_value Node's value, i.e. the key in case of a set or multiset,
