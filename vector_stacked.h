@@ -92,6 +92,8 @@
 #include <string.h>
 
 
+using ssize_t = int64_t;
+
 /* constexpr if support only for c++17 or newer */
 #if __cplusplus >= 201703L
 #define CONSTEXPR constexpr
