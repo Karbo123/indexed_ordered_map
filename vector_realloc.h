@@ -518,8 +518,8 @@ typename vector<T>::iterator vector<T>::erase(vector<T>::const_iterator first, v
 	ssize_t dist = last - first;
 	if(!dist) return iterator(first);
 	
-	size_t p2 = first.data - start;
-	size_t p3 = last.data - start;
+	size_t p2 = &(*first) - start;
+	size_t p3 = &(*last) - start;
 	if(p2 >= p_size || p3 > p_size) throw std::out_of_range("vector::erase(): iterator out of bounds!\n");
 	for(size_t i = p2; i < p3; i++) start[i].~T();
 	
